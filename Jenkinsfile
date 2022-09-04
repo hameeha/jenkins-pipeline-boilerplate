@@ -27,3 +27,26 @@ pipeline {
     }
 }
  
+
+\\Parameters with Conditional
+
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: '')
+
+        choice(name: 'REQUESTED_ACTION', choices: ['greeting', 'silence'], description: 'Pick something')
+    }    
+    stages {
+        stage('Speak') {
+            when {
+                expression { params.REQUESTED_ACTION == 'greeting' }
+            }
+            steps {
+                echo "Hello ${params.PERSON}"
+            }
+        }
+        
+    }
+}
